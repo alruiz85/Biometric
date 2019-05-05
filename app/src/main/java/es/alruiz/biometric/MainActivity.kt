@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                 //Create prompt info
                 val promptInfo = BiometricPrompt.PromptInfo.Builder()
                     .setTitle("Biometric Authentication")
-                    //.setSubtitle("")
+                    .setSubtitle("")
                     .setDescription("Place your finger on the sensor")
                     .setNegativeButtonText("Cancel")
                     .build()
