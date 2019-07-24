@@ -1,11 +1,21 @@
 package es.alruiz.biometric
 
 import android.content.Context
+import android.hardware.biometrics.BiometricManager
 import android.os.Build
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 
-fun isSdkVersionSupported() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+fun isBiometricAvailable(context: Context): Boolean {
+    return if (Build.VERSION.SDK_INT < 29) {
+        isHardwareSupported(context) && isFingerprintAvailable(context)
+    } else { //Biometric manager (from Android Q)
+        val biometricManager = context.getSystemService(BiometricManager::class.java)
+        if (biometricManager != null) {
+            biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
+        } else false
+    }
+}
 
-fun isHardwareSupported(context: Context) = FingerprintManagerCompat.from(context).isHardwareDetected
+private fun isHardwareSupported(context: Context) = FingerprintManagerCompat.from(context).isHardwareDetected
 
-fun isFingerprintAvailable(context: Context) = FingerprintManagerCompat.from(context).hasEnrolledFingerprints()
+private fun isFingerprintAvailable(context: Context) = FingerprintManagerCompat.from(context).hasEnrolledFingerprints()

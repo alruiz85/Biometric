@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
 
         btnStart.setOnClickListener {
-            if (isFingerprintAvailable(applicationContext) && isHardwareSupported(applicationContext)) {
+            if (isBiometricAvailable(applicationContext)) {
                 //Create prompt info
                 val promptInfo = BiometricPrompt.PromptInfo.Builder()
                     .setTitle("Biometric Authentication")
